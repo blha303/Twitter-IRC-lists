@@ -1,11 +1,10 @@
-Twitter-IRC-Bridge
+Twitter-IRC-lists
 =================
 
 Usage
 -----
 
-* Passively posts tweets from a twitter account
-* !twitter posts the twitter url associated with a channel
+* Passively posts tweets from a list (You can retrieve the list number from Twitter's API, instructions [here](#))
 * !add <screenname> <#channel> adds a channel association
 * !del <#channel> deletes the channel association
 * Please set the owner var to the nickname of the bot's owner to add channel associations.
@@ -23,4 +22,4 @@ Installation
 * Copy the Access Token and Consumer keys (above) into config.yml
 * Change the network/channel/screen_name options
 * Use `venv/bin/twistd -y run.py`
-* [Let me know if there's any problems](https://github.com/blha303/Twitter-IRC-Bridge/issues) (or irc.freenode.net #blha303)
+* [Let me know if there's any problems](https://github.com/blha303/Twitter-IRC-lists/issues) (or irc.freenode.net #blha303)
