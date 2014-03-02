@@ -4,7 +4,7 @@ Twitter-IRC-lists
 Usage
 -----
 
-* Passively posts tweets from a list (You can retrieve the list number from Twitter's API, instructions [here](#))
+* Passively posts tweets from a list (You can retrieve the list number from Twitter's API, instructions [here](https://github.com/blha303/Twitter-IRC-lists/issues/1))
 * !add <screenname> <#channel> adds a channel association
 * !del <#channel> deletes the channel association
 * Please set the owner var to the nickname of the bot's owner to add channel associations.
