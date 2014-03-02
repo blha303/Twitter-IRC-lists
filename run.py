@@ -29,8 +29,8 @@ class TwitterProtocol(irc.IRCClient):
     nickname = config["nickname"]
     username = 'Twitter'
     versionName = 'Twitter'
-    versionNum = 'v1.6'
-    realname = 'https://github.com/blha303/Twitter-IRCBridge'
+    versionNum = 'v1.7'
+    realname = 'https://github.com/blha303/Twitter-IRC-lists'
     loopcall = None
 
     def __init__(self):
@@ -69,21 +69,22 @@ class TwitterProtocol(irc.IRCClient):
                                config["consumer-key"],
                                config["consumer-secret"]))
         for sn in config["twusers"]:
-            print "Starting " + sn
+            print "Starting " + str(sn)
             try:
-                if sn in self.lastid:
-                    print "[%s] lastid: %s" % (sn, self.lastid[sn])
-                    timeline = t.statuses.user_timeline(screen_name=sn,
-                                                        since_id=self.lastid[sn],
-                                                        count=5,
-                                                        exclude_replies=True)
+                if str(sn) in self.lastid:
+                    print "[%s] lastid: %s" % (sn, self.lastid[str(sn)])
+                    timeline = t.lists.statuses(list_id=sn,
+                                                since_id=self.lastid[str(sn)],
+                                                count=5,
+                                                exclude_replies=True)
                 else:
-                    timeline = t.statuses.user_timeline(screen_name=sn, count=5,
-                                                        exclude_replies=True)
+                    timeline = t.lists.statuses(list_id=sn,
+                                                count=5,
+                                                exclude_replies=True)
                 print "Rate limit remaining: %s" % timeline.headers.getheader('x-rate-limit-remaining')
                 timeline.reverse()
                 for i in timeline:
-                    fmt = u"\x02{screen_name}\x02: \x02{text}\x02 [ https://twitter.com/{screen_name}/status/{id} ]"
+                    fmt = u"\x02{screen_name}\x02: {text} [ https://twitter.com/{screen_name}/status/{id} ]"
                     out = fmt.format(text=parsemsg(i),
                                      screen_name=i["user"]["screen_name"],
                                      id=i["id_str"])
@@ -92,9 +93,9 @@ class TwitterProtocol(irc.IRCClient):
                         self._send_message(out.encode('utf-8'), config["twusers"][sn])
                     except UnicodeError:
                         print "Couldn't send %s due to error"
-                    self.updatelastid(sn, i["id_str"])
+                    self.updatelastid(str(sn), i["id_str"])
             finally:
-                print "Done " + sn
+                print "Done " + str(sn)
                 print "----------"
 
     def privmsg(self, user, channel, message):
@@ -104,12 +105,7 @@ class TwitterProtocol(irc.IRCClient):
         except StopIteration:
             key = None
         split = message.split(" ")
-        if message == "!twitter":
-            if key:
-                self._send_message("https://twitter.com/" + key, channel)
-            else:
-                self._send_message("I'm not set up for this channel.", channel)
-        elif split[0] == "!add" and nick == config["owner"]:
+        if split[0] == "!add" and nick == config["owner"]:
             if len(split) != 3:
                 self._send_message("Usage: !add screenname #channel", channel)
             else:
