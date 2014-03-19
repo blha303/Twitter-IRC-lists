@@ -6,5 +6,7 @@ nickname: b3TwitterTest
 oauth-secret: ""
 oauth-token: ""
 owner: "blha303"
+# Uncomment the below line to use server password (e.g. irc bouncer)
+#password: "password"
 port: 6667
 twusers: {35479716: "##b3test"}
