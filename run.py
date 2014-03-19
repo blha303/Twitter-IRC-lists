@@ -28,6 +28,8 @@ def parsemsg(msg):
 class TwitterProtocol(irc.IRCClient):
     nickname = config["nickname"]
     username = 'Twitter'
+    if "password" in config:
+        password = config["password"]
     versionName = 'Twitter'
     versionNum = 'v1.7'
     realname = 'https://github.com/blha303/Twitter-IRC-lists'
